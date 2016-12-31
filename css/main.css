@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Inconsolata', monospace;
+}
+
+body{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(60deg, #703E60 -20%, #26004E 30%, #26004E 55%, #703E60);
+  justify-content: center;
+  align-items: center;
+}
+
+section{
+  display: block;
+  width: 640px;
+  height: 480px;
+  background-color: #212121;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+header{
+  text-align: center;
+  color: white;
+  background-color: #424242;
+  line-height: 24px;
+}
+
+article{
+  height: 448px;
+  padding: 4px;
+  color: white;
+  overflow-y: scroll;
+}
+
+pre{
+  display: inline;
+}
+
+pre:last-child{
+  display: inline-block;
+}
+
+p{
+  display: inline;
+  line-height: 1em;
+  color: rgba(255, 255, 255, 1);
+  animation-name: blink;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+div{
+  display: inline;
+}
+
+div:focus{
+  outline: 0px solid transparent;
+}
+
+@keyframes blink{
+  0%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 0;
+  }
+}
