@@ -188,3 +188,5 @@ window.onload = () => {
 
   shell.exec('?');
 }
+
+console.log("%cHi! My name is Hidetoshi. I love programming and software development. If you've been doing something fun, let me in!", 'font-size: 1.5em;color: #8e44ad');
