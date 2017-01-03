@@ -36,11 +36,13 @@ article{
   height: 448px;
   padding: 4px;
   color: white;
+  word-wrap: break-word;
   overflow-y: scroll;
 }
 
 pre{
   display: inline;
+  word-wrap: break-word;
 }
 
 pre:last-child{
@@ -49,6 +51,7 @@ pre:last-child{
 
 p{
   display: inline;
+  word-wrap: break-word;
   line-height: 1em;
   color: rgba(255, 255, 255, 1);
   animation-name: blink;
