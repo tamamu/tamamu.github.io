@@ -1,6 +1,6 @@
 /* ----------------------------- */
-/*   Tamamu's Portfolio Script   */
-/*         (c) 2017 Tamamu       */
+/*    Eddie's Portfolio Script   */
+/*          (c) 2017 Eddie       */
 /* ----------------------------- */
 
 let stdout;
@@ -49,10 +49,14 @@ function print2017() {
 }
 
 function whoami() {
-  println(stdout, 'Tamamu a.k.a. Hidetoshi ITO');
+  println(stdout, 'Name:\t\tEddie');
   println(stdout, 'Age:\t\t20');
   println(stdout, 'Country:\tJapan');
   println(stdout, 'Enroll:\t\tIwate Prefectural University');
+}
+
+function pwd () {
+  println(stdout, '/japan/iwate')
 }
 
 function github() {
@@ -159,6 +163,7 @@ window.onload = () => {
   shell.regist(new Command('greeting', print2017, 'Print greeting message'));
   shell.regist(new Command('whoami', whoami, 'Display my profile'));
   shell.regist(new Command('github', github, 'Show my github URL'));
+	shell.regist(new Command('pwd', pwd, 'Print working area'));
   let terminal = document.getElementById('terminal');
   terminal.onclick = (e) => {
     stdin.focus();
@@ -189,4 +194,4 @@ window.onload = () => {
   shell.exec('?');
 }
 
-console.log("%cHi! My name is Hidetoshi. I love programming and software development. If you've been doing something fun, let me in!", 'font-size: 1.5em;color: #8e44ad');
+console.log("%cHi! I'm Eddie. I love programming and software development. If you've been doing something fun, let me in!", 'font-size: 1.5em;color: #8e44ad');
