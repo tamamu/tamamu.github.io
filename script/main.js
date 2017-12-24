@@ -1,9 +1,15 @@
 /* ----------------------------- */
 /*    Eddie's Portfolio Script   */
-/*          (c) 2017 Eddie       */
+/*          (c) 2018 Eddie       */
 /* ----------------------------- */
 
 let stdout;
+let env = {pwd: '/'};
+let dir = {
+  '/': {
+    'log': {}
+  }
+}
 let fgColor = 'white';
 let bgColor = 'rgba(0, 0, 0, 0)';
 
@@ -37,29 +43,76 @@ function printURL(stream, href, fg = fgColor, bg = bgColor) {
   stream.appendChild(node);
 }
 
-function print2017() {
-  println(stdout, 'A Happy New Year!\n\
-  _______  ________    _____   ________  \n\
- /  ___  \\|\\   __  \\  / __  \\ |\\_____  \\ \n\
-/__/|_/  /\\ \\  \\|\\  \\|\\/_|\\  \\ \\|___/  /|\n\
-|__|//  / /\\ \\  \\\\\\  \\|/ \\ \\  \\    /  / /\n\
-    /  /_/__\\ \\  \\\\\\  \\   \\ \\  \\  /  / / \n\
-   |\\________\\ \\_______\\   \\ \\__\\/__/ /  \n\
-    \\|_______|\\|_______|    \\|__||__|/   \n');
+function print2018(args) {
+  println(stdout, 'Cheers to 2018!')
+  println(stdout, '  _______   ________     _____   ________     ');
+  println(stdout, ' /  ___  \\ |\\   __  \\   / __  \\ |\\   __  \\    ');
+  println(stdout, '/__/|_/  /|\\ \\  \\|\\  \\ |\\/_|\\  \\\\ \\  \\|\\  \\   ');
+  println(stdout, '|__|//  / / \\ \\  \\\\\\  \\\\|/ \\ \\  \\\\ \\   __  \\  ');
+  println(stdout, '    /  /_/__ \\ \\  \\\\\\  \\    \\ \\  \\\\ \\  \\|\\  \\ ');
+  println(stdout, '   |\\________\\\\ \\_______\\    \\ \\__\\\\ \\_______\\');
+  println(stdout, '    \\|_______| \\|_______|     \\|__| \\|_______|');
+  println(stdout, '                                              ');
+  println(stdout, '                                              ');
 }
 
-function whoami() {
+function whoami(args) {
   println(stdout, 'Name:\t\tEddie');
-  println(stdout, 'Age:\t\t20');
+  println(stdout, 'Age:\t\t21');
   println(stdout, 'Country:\tJapan');
   println(stdout, 'Enroll:\t\tIwate Prefectural University');
 }
 
-function pwd () {
-  println(stdout, '/japan/iwate')
+function pwd(args) {
+  println(stdout, env.pwd);
 }
 
-function github() {
+function cd(args) {
+  let dest = args[1];
+  let path = env.pwd.slice(1).split('/');
+  if (path[0] === '') {
+    path = [];
+  }
+  if (dest === '.') {
+    return;
+  } else if (dest === '..') {
+    if (path.length > 1) {
+      env.pwd = '/' + path.slice(0, path.length - 2).join('/');
+    }
+  } else if (dest === undefined || dest === '') {
+    env.pwd = '/';
+  } else {
+    let exist = true;
+    let head = dir['/'];
+    for (let d of path) {
+      if (typeof(head[d]) === 'object') {
+        head = head[d];
+      } else {
+        exist = false;
+        break;
+      }
+    }
+    if (exist && typeof(head[dest]) ===  'object') {
+      env.pwd += dest + '/';
+    }
+  }
+}
+
+function ls(args) {
+  let path = env.pwd.slice(1).split('/');
+  if (path[0] === '') {
+    path = [];
+  }
+  let head = dir['/'];
+  for (let d of path) {
+    if (typeof(head[d]) === 'object') {
+      head = head[d];
+    }
+  }
+  println(stdout, ['.', '..'].concat(Object.keys(head)).join('  '));
+}
+
+function github(args) {
   print(stdout, 'My Github: ', 'yellow');
   printURL(stdout, 'https://github.com/tamamu', 'green');
   println(stdout, '');
@@ -84,8 +137,8 @@ class Command {
     this.callback = callback;
     this.description = description;
   }
-  run() {
-    this.callback();
+  run(args) {
+    this.callback(args);
     printPrompt();
   }
 }
@@ -132,7 +185,8 @@ class Shell {
     }
   }
   exec(input) {
-    let execName = input.trim();
+    let args = input.trim().split(' ');
+    let execName = args[0];
     if (execName === '') {
       printPrompt();
       return;
@@ -146,7 +200,7 @@ class Shell {
     for (let cmd of this.bin) {
       if (cmd.execName === execName) {
         found = true;
-        cmd.run();
+        cmd.run(args);
         break;
       }
     }
@@ -160,10 +214,12 @@ class Shell {
 window.onload = () => {
   stdout = document.getElementById('stdout');
   let shell = new Shell();
-  shell.regist(new Command('greeting', print2017, 'Print greeting message'));
+  shell.regist(new Command('greeting', print2018, 'Print greeting message'));
   shell.regist(new Command('whoami', whoami, 'Display my profile'));
   shell.regist(new Command('github', github, 'Show my github URL'));
-	shell.regist(new Command('pwd', pwd, 'Print working area'));
+	shell.regist(new Command('pwd', pwd, 'Print working directory'));
+  shell.regist(new Command('cd', cd, 'Change directory'));
+  shell.regist(new Command('ls', ls, 'List directory contents'));
   let terminal = document.getElementById('terminal');
   terminal.onclick = (e) => {
     stdin.focus();
