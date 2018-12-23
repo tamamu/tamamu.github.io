@@ -1,4 +1,4 @@
-const YEAR2019 = new Date(2019, 0, 0, 0, 0, 0, 0)
+const YEAR2019 = new Date(2019, 0, 1, 0, 0, 0, 0)
 const RESTSEC = Math.max(2, (YEAR2019 - new Date()) / 1000)
 window.onload = () => {
     let bg = document.getElementById("bg")
